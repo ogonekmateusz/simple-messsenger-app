@@ -70,7 +70,7 @@ export default function Form({
       <p className="text-center text-xs text-gray-400">
         {formFooterText}{" "}
         <Link
-          to="/login"
+          to={formFooterLinkText === 'Zarejestruj się' ? '/register' : '/login'}
           className="text-blue-500 hover:text-blue-600 font-medium"
         >
           {formFooterLinkText}
