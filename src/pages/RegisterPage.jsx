@@ -6,6 +6,7 @@ export default function RegisterPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [inviteCode, setInviteCode] = useState("");
+  const [error, setError] = useState("");
   const onchangeInviteCode = (e) => {
     setInviteCode(e.target.value);
   };
@@ -17,9 +18,47 @@ export default function RegisterPage() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Register:", { username, password });
+
+    if (password.length < 8 || password.length > 100) {
+      setError("Hasło musi mieć od 8 do 100 znaków");
+      return;
+    }
+
+    try {
+      if (inviteCode !== "BMW730i") {
+        setError("Niepoprawny kod zaproszenia");
+        return;
+      }
+
+      const response = await fetch(
+        "https://chat-api-zz4o.onrender.com/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password,
+            inviteCode,
+          }),
+        },
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("token", data.token);
+        window.location.href = "/chat";
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || "Rejestracja nie powiodła się");
+      }
+    } catch (error) {
+      console.error("Błąd podczas rejestracji:", error);
+      setError("Wystąpił błąd podczas rejestracji. Spróbuj ponownie.");
+    }
   };
 
   return (
@@ -48,6 +87,7 @@ export default function RegisterPage() {
           className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-sm text-gray-900 placeholder-gray-300 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
         />
       </div>
+      {error && <p className="text-red-500 text-sm mt-2 text-center">{error}</p>}
     </Form>
   );
 }
