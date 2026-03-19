@@ -41,6 +41,8 @@ export default function LoginPage() {
 
       const data = await response.json();
       console.log("Login response:", data);
+      localStorage.setItem("token", data.token);
+      window.location.href = "/chat";
     } catch (error) {
       console.error("Błąd podczas logowania:", error);
       setError("Błąd podczas logowania. Spróbuj ponownie.");
