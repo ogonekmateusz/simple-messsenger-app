@@ -13,6 +13,7 @@ export default function Form({
   onchangeUserName,
   onchangePassword,
   onchangeInviteCode,
+  errorMessage,
 
 }) {
   return (
@@ -60,6 +61,9 @@ export default function Form({
           {formButtonText}
         </button>
       </form>
+      {errorMessage && (
+        <p className="text-red-500 text-sm mt-2 text-center">{errorMessage}</p>
+      )}
 
       <div className="flex items-center gap-3 my-5">
         <div className="flex-1 h-px bg-gray-100" />

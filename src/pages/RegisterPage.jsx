@@ -74,6 +74,7 @@ export default function RegisterPage() {
       onchangePassword={onchangePassword}
       inviteCode={inviteCode}
       onchangeInviteCode={onchangeInviteCode}
+      errorMessage={error}
     >
       <div>
         <label className="block text-xs font-medium text-gray-700 mb-1.5">
@@ -87,7 +88,6 @@ export default function RegisterPage() {
           className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-sm text-gray-900 placeholder-gray-300 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
         />
       </div>
-      {error && <p className="text-red-500 text-sm mt-2 text-center">{error}</p>}
     </Form>
   );
 }
